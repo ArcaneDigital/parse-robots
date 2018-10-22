@@ -13,8 +13,9 @@ module.exports = async function(url, options = {}) {
     var currentGroup = "";
     var unsortedGroups = _res.content
       .split(/\r?\n/)
-      .filter(row => row.match(/^(Allow|Disallow|User-agent).*/gim))
+      .filter(row => row.trim().match(/^(Allow|Disallow|User-agent).*/gim))
       .reduce((acc, cur) => {
+        if (cur.indexOf(":") == -1) return acc;
         const key = cur
           .split(":")[0]
           .replace(/(\s?-\s)/g, "")
@@ -51,7 +52,8 @@ module.exports = async function(url, options = {}) {
           return acc;
         }, "*");
 
-      const rules = _groups[activeGroup].sort(function(a, b) {
+      const g = _groups[activeGroup] || [];
+      const rules = g.sort(function(a, b) {
         return a.path.length - b.path.length;
       });
 
