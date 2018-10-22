@@ -44,6 +44,11 @@ if(!robot) return
 robot.isAllowed("/safetycheck/", `Mozilla/5.0 (compatible; SiteBot/1.0)`);      //false
 ```
 
+## Specs
+
+- [Google Search Robots.txt Specifications](https://developers.google.com/search/reference/robots_txt)
+- [Original Web Robots Specification](http://www.robotstxt.org/norobots-rfc.txt)
+
 ## Maintainers
 
 - [Jay Goodfellow](https://github.com/jaygoodfellow)
