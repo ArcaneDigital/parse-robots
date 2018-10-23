@@ -62,11 +62,14 @@ module.exports = async function(url, options = {}) {
         if (rule.path == "/") rule.path = "/*";
         const pattern = rule.path
           .replace(/\//gim, "\\/")
+          .replace(/\?/, "\\?")
           .replace(/\*/gim, ".+");
-        const reg = new RegExp(pattern, "ig");
+        try {
+          const reg = new RegExp(pattern, "ig");
 
-        if (path.match(reg) && rule.field == "disallow") allowed = false;
-        if (path.match(reg) && rule.field == "allow") allowed = true;
+          if (path.match(reg) && rule.field == "disallow") allowed = false;
+          if (path.match(reg) && rule.field == "allow") allowed = true;
+        } catch (e) {}
       }
 
       return allowed;

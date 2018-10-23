@@ -14,8 +14,18 @@
     "type": "git",
     "url": "https://github.com/ArcaneDigital/parse-robots"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "keywords": [
+    "crawl",
+    "web",
+    "robots.txt",
+    "seo",
+    "robotstxt",
+    "robots",
+    "robots-txt",
+    "sitemap"
+  ],
   "dependencies": {
-    "got": "9.2.2"
+    "got": "^9.2.2"
   }
 }
