@@ -61,6 +61,7 @@ module.exports = async function(url, options = {}) {
       for (let rule of rules) {
         if (rule.path.trim().length == 0) continue;
         if (rule.path == "/") rule.path = "/*";
+
         const pattern = rule.path
           .replace(/\//gim, "\\/")
           .replace(/\?/, "\\?")
