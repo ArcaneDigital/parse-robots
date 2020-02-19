@@ -53,6 +53,7 @@ module.exports = async function(url, options = {}) {
         }, "*");
 
       const g = _groups[activeGroup] || [];
+
       const rules = g.sort(function(a, b) {
         return a.path.length - b.path.length;
       });
@@ -63,7 +64,7 @@ module.exports = async function(url, options = {}) {
         const pattern = rule.path
           .replace(/\//gim, "\\/")
           .replace(/\?/, "\\?")
-          .replace(/\*/gim, ".+");
+          .replace(/\*/gim, ".*");
         try {
           const reg = new RegExp(pattern, "ig");
 
