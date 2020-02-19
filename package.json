@@ -26,6 +26,6 @@
     "sitemap"
   ],
   "dependencies": {
-    "got": "^10.5.7"
+    "got": "9.6.0"
   }
 }
