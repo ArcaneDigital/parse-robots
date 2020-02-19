@@ -1,6 +1,6 @@
 {
   "name": "parse-robots",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Promise based parser for robots.txt files.",
   "main": "index.js",
   "scripts": {
