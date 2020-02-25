@@ -2,6 +2,7 @@ const fetch = require("./lib/fetch");
 module.exports = async function(url, options = {}) {
   var _res = await fetch(url);
   if (_res.status != 200) return null;
+  if (_res.content.toLowerCase().includes("<html")) return null;
   var _content = _res.content;
   var _sitemaps = [];
   var _agents = [];
@@ -26,13 +27,21 @@ module.exports = async function(url, options = {}) {
           .replace(/(\s?-\s)/g, "")
           .trim();
 
-        if (key == "user-agent" && !acc.hasOwnProperty(value.toLowerCase()))
+        if (
+          key == "user-agent" &&
+          value != "" &&
+          !acc.hasOwnProperty(value.toLowerCase())
+        )
           acc[value.toLowerCase()] = [];
 
         if (key == "user-agent") currentGroup = value.toLowerCase();
-        if (key != "user-agent")
-          acc[currentGroup].push({ field: key, path: value });
-
+        try {
+          if (key != "user-agent" && value != "" && currentGroup != "") {
+            acc[currentGroup].push({ directive: key, path: value });
+          }
+        } catch (e) {
+          console.log(e);
+        }
         return acc;
       }, {});
     _groups = unsortedGroups;
@@ -69,8 +78,8 @@ module.exports = async function(url, options = {}) {
         try {
           const reg = new RegExp(pattern, "ig");
 
-          if (path.match(reg) && rule.field == "disallow") allowed = false;
-          if (path.match(reg) && rule.field == "allow") allowed = true;
+          if (path.match(reg) && rule.directive == "disallow") allowed = false;
+          if (path.match(reg) && rule.directive == "allow") allowed = true;
         } catch (e) {}
       }
 
@@ -81,6 +90,9 @@ module.exports = async function(url, options = {}) {
     },
     getAgents: function() {
       return _agents;
+    },
+    getContents: function() {
+      return _content;
     },
     getSitemaps: function() {
       const reg = /Sitemap: *([^\r\n]*)/gi;
