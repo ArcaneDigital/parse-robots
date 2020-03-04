@@ -3,7 +3,10 @@ module.exports = async function(url, options = {}) {
   var _res = await fetch(url);
   if (_res.status != 200) return null;
   if (_res.content.toLowerCase().includes("<html")) return null;
-  var _content = _res.content;
+  var _content = _res.content
+    .split(/\r?\n/)
+    .filter(row => row.match(/^[ -~]+$/gim))
+    .join("\r\n");
   var _sitemaps = [];
   var _agents = [];
   var _groups = {};
@@ -12,7 +15,7 @@ module.exports = async function(url, options = {}) {
   _getGroups();
   function _getGroups() {
     var currentGroup = "";
-    var unsortedGroups = _res.content
+    var unsortedGroups = _content
       .split(/\r?\n/)
       .filter(row => row.trim().match(/^(Allow|Disallow|User-agent).*/gim))
       .reduce((acc, cur) => {
