@@ -1,6 +1,6 @@
 const fetch = require("./lib/fetch");
 module.exports = async function(url, options = {}) {
-  var _res = await fetch(url);
+  var _res = await fetch(url, options);
   if (_res.status != 200) return null;
   if (_res.content.toLowerCase().includes("<html")) return null;
   var _content = _res.content
