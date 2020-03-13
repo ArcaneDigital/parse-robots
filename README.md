@@ -19,7 +19,7 @@ const robot = await Robots("https://facebook.com/robots.txt");
 - `isAllowed(path, agent)` - Boolean
 - `getSitemaps()` - Array
 - `getAgents()` - Array
-- `getCrawlDelay()` - Integer
+- `getCrawlDelay(max)` - Integer
 - `getHost()` - String
 
 ## Examples

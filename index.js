@@ -107,10 +107,12 @@ module.exports = async function(url, options = {}) {
       }
       return _sitemaps;
     },
-    getCrawlDelay: function() {
+    getCrawlDelay: function(max = 60) {
       const reg = /crawl-delay: *([^\r\n]*)/gi;
       var match = reg.exec(_content);
-      if (match) _crawldelay = match[1];
+      if (match) {
+        _crawldelay = parseInt(match[1]) > max ? max : parseInt(match[1]);
+      }
       return _crawldelay;
     },
     getHost: function() {
