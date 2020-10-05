@@ -6,19 +6,19 @@ module.exports = async function(source, options = {}, useString = false) {
     if (_res.status != 200) return null;
     if (_res.content.toLowerCase().includes("<html")) return null;
   }
-  var _content = _res.content
+  let _content = _res.content
     .split(/\r?\n/)
     .filter(row => row.match(/^[ -~]+$/gim))
     .join("\r\n");
-  var _sitemaps = [];
-  var _agents = [];
-  var _groups = {};
-  var _crawldelay = null;
-  var _host = null;
+  let _sitemaps = [];
+  let _agents = [];
+  let _groups = {};
+  let _crawldelay = null;
+  let _host = null;
   _getGroups();
   function _getGroups() {
-    var currentGroup = "";
-    var unsortedGroups = _content
+    let currentGroup = "";
+    let unsortedGroups = _content
       .split(/\r?\n/)
       .filter(row => row.trim().match(/^(Allow|Disallow|User-agent).*/gim))
       .reduce((acc, cur) => {
@@ -102,7 +102,7 @@ module.exports = async function(source, options = {}, useString = false) {
     },
     getSitemaps: function() {
       const reg = /Sitemap: *([^\r\n]*)/gi;
-      var match = reg.exec(_content);
+      let match = reg.exec(_content);
 
       while (match != null) {
         _sitemaps.push(match[1]);
@@ -112,7 +112,7 @@ module.exports = async function(source, options = {}, useString = false) {
     },
     getCrawlDelay: function(max = 60) {
       const reg = /crawl-delay: *([^\r\n]*)/gi;
-      var match = reg.exec(_content);
+      let match = reg.exec(_content);
       if (match) {
         _crawldelay = parseInt(match[1]) > max ? max : parseInt(match[1]);
       }
@@ -120,7 +120,7 @@ module.exports = async function(source, options = {}, useString = false) {
     },
     getHost: function() {
       const reg = /host: *([^\r\n]*)/gi;
-      var match = reg.exec(_content);
+      let match = reg.exec(_content);
       if (match) _host = match[1];
       return _host;
     }
