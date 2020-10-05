@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-import * as fetch from './lib/fetch.js';
+import * as fetch from "./lib/fetch.js";
 
 export default async function(source, options = {}, useString = false) {
   let _res = source;
