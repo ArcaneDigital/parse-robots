@@ -1,3 +1,4 @@
+'use strict';
 const fetch = require("./lib/fetch");
 module.exports = async function(source, options = {}, useString = false) {
   let _res = source;
