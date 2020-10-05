@@ -1,8 +1,11 @@
 const fetch = require("./lib/fetch");
-module.exports = async function(url, options = {}) {
-  var _res = await fetch(url, options);
-  if (_res.status != 200) return null;
-  if (_res.content.toLowerCase().includes("<html")) return null;
+module.exports = async function(source, options = {}, useString = false) {
+  let _res = source;
+  if (!useString) {
+    _res = await fetch(source, options);
+    if (_res.status != 200) return null;
+    if (_res.content.toLowerCase().includes("<html")) return null;
+  }
   var _content = _res.content
     .split(/\r?\n/)
     .filter(row => row.match(/^[ -~]+$/gim))
