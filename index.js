@@ -1,21 +1,27 @@
-const fetch = require("./lib/fetch");
-module.exports = async function(url, options = {}) {
-  var _res = await fetch(url, options);
-  if (_res.status != 200) return null;
-  if (_res.content.toLowerCase().includes("<html")) return null;
-  var _content = _res.content
+"use strict";
+
+import * as fetch from "./lib/fetch.js";
+
+export default async function(source, options = {}) {
+  let _res = source;
+  if (options !== true) {
+    _res = await fetch(source, options);
+    if (_res.status != 200) return null;
+    if (_res.content.toLowerCase().includes("<html")) return null;
+  }
+  let _content = _res.content
     .split(/\r?\n/)
     .filter(row => row.match(/^[ -~]+$/gim))
     .join("\r\n");
-  var _sitemaps = [];
-  var _agents = [];
-  var _groups = {};
-  var _crawldelay = null;
-  var _host = null;
+  let _sitemaps = [];
+  let _agents = [];
+  let _groups = {};
+  let _crawldelay = null;
+  let _host = null;
   _getGroups();
   function _getGroups() {
-    var currentGroup = "";
-    var unsortedGroups = _content
+    let currentGroup = "";
+    let unsortedGroups = _content
       .split(/\r?\n/)
       .filter(row => row.trim().match(/^(Allow|Disallow|User-agent).*/gim))
       .reduce((acc, cur) => {
@@ -99,7 +105,7 @@ module.exports = async function(url, options = {}) {
     },
     getSitemaps: function() {
       const reg = /Sitemap: *([^\r\n]*)/gi;
-      var match = reg.exec(_content);
+      let match = reg.exec(_content);
 
       while (match != null) {
         _sitemaps.push(match[1]);
@@ -109,7 +115,7 @@ module.exports = async function(url, options = {}) {
     },
     getCrawlDelay: function(max = 60) {
       const reg = /crawl-delay: *([^\r\n]*)/gi;
-      var match = reg.exec(_content);
+      let match = reg.exec(_content);
       if (match) {
         _crawldelay = parseInt(match[1]) > max ? max : parseInt(match[1]);
       }
@@ -117,7 +123,7 @@ module.exports = async function(url, options = {}) {
     },
     getHost: function() {
       const reg = /host: *([^\r\n]*)/gi;
-      var match = reg.exec(_content);
+      let match = reg.exec(_content);
       if (match) _host = match[1];
       return _host;
     }

@@ -8,10 +8,21 @@ Promise based parser for robots.txt files. Allows webcrawlers and other scraping
 
 ## Getting Started
 
+### Fetch from URL
+
 ```js
-const Robots = require("parse-robots");
+import * as Robots from "parse-robots";
 
 const robot = await Robots("https://facebook.com/robots.txt");
+```
+
+### Parse robots.txt as String
+
+```js
+import * as Robots from "parse-robots";
+
+const robots_txt = "User-agent: Some-UA\nAllow: /";
+const robot = await Robots(robots_txt, true);
 ```
 
 ## Methods
