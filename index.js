@@ -1,6 +1,8 @@
 'use strict';
-const fetch = require("./lib/fetch");
-module.exports = async function(source, options = {}, useString = false) {
+
+import * as fetch from './lib/fetch.js';
+
+export default async function(source, options = {}, useString = false) {
   let _res = source;
   if (!useString) {
     _res = await fetch(source, options);
