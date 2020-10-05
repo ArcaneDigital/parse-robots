@@ -2,9 +2,9 @@
 
 import * as fetch from "./lib/fetch.js";
 
-export default async function(source, options = {}, useString = false) {
+export default async function(source, options = {}) {
   let _res = source;
-  if (!useString) {
+  if (options !== true) {
     _res = await fetch(source, options);
     if (_res.status != 200) return null;
     if (_res.content.toLowerCase().includes("<html")) return null;
